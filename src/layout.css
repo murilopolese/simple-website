@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+html {
+  background: #eee;
+}
+body {
+  margin: 1em auto;
+  font-family: sans-serif;
+  width: 100%;
+  max-width: 960px;
+  padding: 2em;
+  background: white;
+  border-radius: 2em;
+}
+
+img {
+  max-width: 100%;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  padding: 1em;
+  width: 200px;
+}

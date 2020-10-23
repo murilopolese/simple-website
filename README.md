@@ -1,11 +1,21 @@
 # Hello world! Website
 
-This is a template using Choojs for creating a website. It aims to be a replacement of Gatsby kind of sites but using much less complicated and dependent.
+This is a simple static website generator to be use as an alternative to Gatsby.
 
-It should be ready to use but here are the things that are included:
+- [Frontmatter](https://github.com/jxson/front-matter): Parse metadata from markdown files
+- [Showdown](https://github.com/showdownjs/showdown): A bidirectional Markdown to HTML to Markdown converter written in Javascript
+- [ncp](https://github.com/AvianFlu/ncp): Copy folders recursively
+- [rimraf](https://github.com/isaacs/rimraf): Remove folders recursively
+- [http-server](https://github.com/http-party/http-server): a simple zero-configuration command-line http server
 
-- [Choo js](https://github.com/choojs/choo): sturdy 4kb frontend framework  
-- [Bankai](https://github.com/choojs/bankai): friendly web compiler
+## How to build and run
 
+```
+npm install
+npm run build
+npm start
+```
 
-Important to accept the self signed certificate here: https://github.com/choojs/bankai#%EF%B8%8F--https-instructions
+## How it works?
+
+It's all 200 lines of javascript on `index.js`
