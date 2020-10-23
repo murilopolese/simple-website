@@ -1,0 +1,20 @@
+{
+  "name": "jonathan_site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "bankai start index.js",
+    "build": "bankai build index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "choo": "^7.1.0",
+    "choo-devtools": "^3.0.4"
+  },
+  "devDependencies": {
+    "bankai": "^9.15.3"
+  }
+}
