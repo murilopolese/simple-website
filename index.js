@@ -3,8 +3,7 @@ const path = require('path')
 const copyFolder = require('ncp')
 const remove = require('rimraf')
 const frontmatter = require('front-matter')
-const markdown  = require('showdown')
-const converter = new markdown.Converter()
+const markdown  = require('marked')
 
 function moveMediaFolder() {
   let mediaPath = path.resolve('./media')
@@ -87,7 +86,8 @@ function parseMarkdown(filePath) {
     description: data.attributes.description,
     thumbnail: data.attributes.thumbnail,
     type: data.attributes.type,
-    html: converter.makeHtml(data.body)
+    tags: data.attributes.tags,
+    html: markdown(data.body)
   }
 }
 
@@ -96,6 +96,7 @@ function renderHead(data) {
     <head>
       <title>${data.title}</title>
       <link rel="stylesheet" href="/layout.css">
+      <script type="text/javascript" src="/script.js"></script>
     </head>
   `
 }
@@ -117,18 +118,38 @@ function renderPageLayout(data) {
       <body>
         ${renderMenu()}
         ${data.html}
+        ${data.tags}
       </body>
     </html>
   `
 }
 
 function renderIndexLayout(pageData, posts) {
+  let tags = []
+  for (let i = 0; i < posts.length; i++) {
+    let post = posts[i]
+    if (post.tags != undefined) {
+      for (let j = 0; j < post.tags.length; j++) {
+        let tag = post.tags[j]
+        if (tags.indexOf(tag) == -1) {
+          tags.push(tag)
+        }
+      }
+    }
+  }
+
   function renderThumbnails(posts) {
     return `
       <div class="list">
         ${posts.map(function(post) {
+          let tags = ''
+          if (post.tags != undefined) {
+            tags = post.tags.map(function(t) {
+              return `tag-${t}`
+            }).join(' ')
+          }
           return `
-            <div class="thumbnail">
+            <div class="thumbnail ${tags}">
               <h3><a href="/${post.path}">${post.title}</a></h3>
               <p><img src="${post.thumbnail}" alt="${post.title}" /></p>
             </div>
@@ -137,12 +158,22 @@ function renderIndexLayout(pageData, posts) {
       </div>
     `
   }
+  function renderTagButtons(tags) {
+    return `
+      ${tags.map(function(tag) {
+        return `
+          <button class="tag-button" data-tag="${tag}">${tag}</button>
+        `
+      }).join('')}
+    `
+  }
   return `
     <html>
       ${renderHead(pageData)}
       <body>
         ${renderMenu()}
         ${pageData.html}
+        ${renderTagButtons(tags)}
         ${renderThumbnails(posts)}
       </body>
     </html>
@@ -153,12 +184,10 @@ cleanBuildFolder()
 .then(moveMediaFolder)
 .then(moveSourceFolder)
 .then(function() {
-  // Create single pages
+  // Create single pages for all posts
   createPage('./content/pages/home.md', '')
-  // Get all file names inside
   let allPosts = getAllPosts()
   allPosts.forEach(function(data) {
-    // generate a folder name from file name
     createPage(`./content/posts/${data.fileName}`, `${data.path}`)
   })
 

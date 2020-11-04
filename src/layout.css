@@ -27,3 +27,12 @@ img {
   padding: 1em;
   width: 200px;
 }
+
+.selected {
+  background: black;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}

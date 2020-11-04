@@ -3,6 +3,9 @@ title: First project!!
 description: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 thumbnail: /media/image.png
 type: project
+tags:
+- murilo
+- jonte
 ---
 
 # This is my first project
